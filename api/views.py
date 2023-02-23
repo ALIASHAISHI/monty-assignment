@@ -7,6 +7,27 @@ api = Blueprint('api', __name__)
 # Producer endpoint
 @api.route('/publish', methods=['POST'])
 def publish():
+    """
+    Publlish a new message
+    ---
+    parameters:
+        -   name: body
+            in: body
+            required: true
+            description: The message needed to publish.
+            schema:      # Request body contents
+              type: object
+              properties:
+                message:
+                  type: string
+                  required: true
+                
+    responses:
+        200:
+            description: Message published
+        400:
+            description: No message provided
+    """
     message = request.json.get('message')
     if not message:
         return jsonify({'error': 'No message provided'}), 400
@@ -44,6 +65,13 @@ def publish():
 # Consumer endpoint
 @api.route('/consume', methods=['GET'])
 def consume():
+    """
+    Consume a new message
+    ---
+    responses:
+        200:
+          description: Message consumed
+    """
     # Connect to RabbitMQ
     connection = pika.BlockingConnection(pika.ConnectionParameters(
         host=config.RABBITMQ_HOST,
