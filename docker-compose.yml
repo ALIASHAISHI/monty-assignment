@@ -2,8 +2,8 @@ version: '3'
 
 services:
   app:
-    build: .
-    # image: myapp:latest
+    # build: .
+    image: aliashaishi/monty-assignment:latest
     ports:
       - 5000:5000
     depends_on:
